@@ -48,19 +48,19 @@ def write_sample(line, idx, dst):
         )
     )
 
-    # wrd
-    words = lbl.strip().lower()
-    with open(basepath + ".wrd", "w") as f:
-        f.write(words)
-
-    # ltr
-    spellings = " | ".join([" ".join(w) for w in words.split()])
-    with open(basepath + ".tkn", "w") as f:
-        f.write(spellings)
-
-    # id
-    with open(basepath + ".id", "w") as f:
-        f.write("file_id\t{fid}".format(fid=idx))
+#    # wrd
+#    words = lbl.strip().lower()
+#    with open(basepath + ".wrd", "w") as f:
+#        f.write(words)
+#
+#    # ltr
+#    spellings = " | ".join([" ".join(w) for w in words.split()])
+#    with open(basepath + ".tkn", "w") as f:
+#        f.write(spellings)
+#
+#    # id
+#    with open(basepath + ".id", "w") as f:
+#        f.write("file_id\t{fid}".format(fid=idx))
 
 
 if __name__ == "__main__":
@@ -74,7 +74,7 @@ if __name__ == "__main__":
         str(args.src)
     ), "Librispeech src directory not found - '{d}'".format(d=args.src)
 
-    subpaths = ["wav"]
+    subpaths = [""]
 
     os.makedirs(args.dst, exist_ok=True)
 
@@ -99,7 +99,8 @@ if __name__ == "__main__":
         for tf in transcriptfiles:
             with open(tf, "r") as f:
                 for line in f:
-                    transcripts.append(tf + " " + line.strip())
+                    directory = "/".join(tf.split("/")[:-2]) + "/wav/"
+                    transcripts.append(directory + " " + line.strip())
 
         n_samples = len(transcripts)
         for n in range(n_samples):
