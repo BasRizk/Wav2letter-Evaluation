@@ -48,19 +48,19 @@ def write_sample(line, idx, dst):
         )
     )
 
-#    # wrd
-#    words = lbl.strip().lower()
-#    with open(basepath + ".wrd", "w") as f:
-#        f.write(words)
-#
-#    # ltr
-#    spellings = " | ".join([" ".join(w) for w in words.split()])
-#    with open(basepath + ".tkn", "w") as f:
-#        f.write(spellings)
-#
-#    # id
-#    with open(basepath + ".id", "w") as f:
-#        f.write("file_id\t{fid}".format(fid=idx))
+    # wrd
+    words = lbl.strip().lower()
+    with open(basepath + ".wrd", "w") as f:
+        f.write(words)
+
+    # ltr
+    spellings = " | ".join([" ".join(w) for w in words.split()])
+    with open(basepath + ".tkn", "w") as f:
+        f.write(spellings)
+
+    # id
+    with open(basepath + ".id", "w") as f:
+        f.write("file_id\t{fid}".format(fid=idx))
 
 
 if __name__ == "__main__":
