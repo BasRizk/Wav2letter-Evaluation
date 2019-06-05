@@ -11,3 +11,6 @@ update-alternatives --install /usr/lib/x86_64-linux-gnu/liblapack.so.3 \
 echo "/home/$USER/intel/lib/intel64"     >  /etc/ld.so.conf.d/mkl.conf
 echo "/home/$USER/intel/mkl/lib/intel64" >> /etc/ld.so.conf.d/mkl.conf
 ldconfig
+
+
+echo "Update Alternatives based on INTEL MKL installed in HOME"
