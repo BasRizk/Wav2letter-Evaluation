@@ -1,3 +1,12 @@
+# Other folders to ignore
+models/
+logs/
+tests/
+
+# Other files to ignore
+*.xz
+*.tar
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
