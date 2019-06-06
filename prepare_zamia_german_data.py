@@ -21,7 +21,39 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import argparse
 import os
 import sys
+import re, string
+import unicodedata
+#from text import Alphabet, validate_label
 
+isText = False
+
+#alphabet_path = "models/de/tokens.txt"
+#assert(os.path.exists(alphabet_path))
+#alphabet = Alphabet(alphabet_path)
+
+punct_regex = re.compile('[%s]' % re.escape(string.punctuation))
+digits_regex = re.compile('[%s]' % re.escape(string.digits))
+
+def label_filter(label):
+    
+    try:
+        label = unicodedata.normalize("NFKD", label.strip()) \
+#            .replace('-', '') \
+#            .replace('\' ', '\'') \
+#            .replace('  ', ' ') \
+#            .replace('#', 'nC')
+        label = punct_regex.sub('', label)
+        label = digits_regex.sub('', label)
+
+#        if alphabet and label:
+#            try:
+#                [alphabet.label_from_string(c) for c in label]
+#            except KeyError:
+#                label = None
+    except:
+        print(label)
+            
+    return label
 
 def findtranscriptfiles(dir):
     files = []
@@ -38,6 +70,7 @@ def write_sample(line, idx, dst):
 
     assert filename and input and lbl
 
+    lbl = label_filter(lbl)
     basepath = os.path.join(dst, "%09d" % idx)
 
     # wav
@@ -106,14 +139,14 @@ if __name__ == "__main__":
         for n in range(n_samples):
             write_sample(transcripts[n], n, dst)
 
-    # create tokens dictionary
-    tkn_file = os.path.join(args.dst, "data", "tokens.txt")
-    sys.stdout.write("creating tokens file {t}...\n".format(t=tkn_file))
-    sys.stdout.flush()
-    with open(tkn_file, "w") as f:
-        f.write("|\n")
-        f.write("'\n")
-        for alphabet in range(ord("a"), ord("z") + 1):
-            f.write(chr(alphabet) + "\n")
+#    # create tokens dictionary
+#    tkn_file = os.path.join(args.dst, "data", "tokens.txt")
+#    sys.stdout.write("creating tokens file {t}...\n".format(t=tkn_file))
+#    sys.stdout.flush()
+#    with open(tkn_file, "w") as f:
+#        f.write("|\n")
+#        f.write("'\n")
+#        for alphabet in range(ord("a"), ord("z") + 1):
+#            f.write(chr(alphabet) + "\n")
 
     sys.stdout.write("Done !\n")
