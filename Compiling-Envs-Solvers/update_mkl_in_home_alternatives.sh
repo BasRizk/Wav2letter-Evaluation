@@ -1,3 +1,5 @@
+# TODO just in case, as the script will most probably be run in sudo su bash (root)
+USER=ironbas3 
 ## update alternatives
 update-alternatives --install /usr/lib/x86_64-linux-gnu/libblas.so     \
                     libblas.so-x86_64-linux-gnu      /home/$USER/intel/mkl/lib/intel64/libmkl_rt.so 50
