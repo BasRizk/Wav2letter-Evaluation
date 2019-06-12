@@ -6,6 +6,7 @@ tests/
 # Other files to ignore
 *.xz
 *.tar
+*.tgz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
