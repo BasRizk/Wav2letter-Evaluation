@@ -30,8 +30,8 @@ import logging
 from nltools           import misc
 from nltools.tokenizer import tokenize
 
-TSDIR    = 'data/src/speech/%s'
-SPK_TEST = 'data/src/speech/%s/spk_test.txt'
+TSDIR    = 'tests/%s'
+#SPK_TEST = 'data/src/speech/%s/spk_test.txt'
 MAXLINES = 100000 # used to split up transcript.csvs
  
 class Transcripts(object):
@@ -87,18 +87,18 @@ class Transcripts(object):
 
                     self.ts[cfn] = v
 
-        spk_test_fn = SPK_TEST % corpus_name
+#        spk_test_fn = SPK_TEST % corpus_name
 
-        if create_db:
-            if not os.path.exists(spk_test_fn):
-                logging.info ('creating empty %s' % spk_test_fn)
-                with codecs.open(spk_test_fn, 'w', 'utf8') as f:
-                    pass
-
-        self.spk_test = set()
-        with codecs.open(spk_test_fn, 'r', 'utf8') as f:
-            for line in f:
-                self.spk_test.add(line.strip())
+#        if create_db:
+#            if not os.path.exists(spk_test_fn):
+#                logging.info ('creating empty %s' % spk_test_fn)
+#                with codecs.open(spk_test_fn, 'w', 'utf8') as f:
+#                    pass
+#
+#        self.spk_test = set()
+#        with codecs.open(spk_test_fn, 'r', 'utf8') as f:
+#            for line in f:
+#                self.spk_test.add(line.strip())
 
 
     def keys(self):
@@ -143,8 +143,6 @@ class Transcripts(object):
     def split(self, limit=0, min_quality=2, add_all=False):
 
         ts_all   = {}
-        ts_train = {}
-        ts_test  = {}
 
         cnt = 0
 
@@ -169,17 +167,7 @@ class Transcripts(object):
                     continue
 
             ts_all[cfn] = v
-
-            is_test = False
-            for spk in self.spk_test:
-                if cfn.startswith(spk):
-                    is_test = True
-                    break
-
-            if is_test:
-                ts_test[cfn]  = v
-            else:
-                ts_train[cfn] = v
-
-        return ts_all, ts_train, ts_test
+            
+        return ts_all
+    #, ts_test
 

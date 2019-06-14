@@ -40,18 +40,24 @@ class Lexicon(object):
         self.dictionary = {}
         self.multidict  = {}
 
-        with open(str(DICT_PATH) + "/" + str(file_name),'rb') as f:
+#        import sys
+#        # sys.setdefaultencoding() does not exist, here!
+#        reload(sys)  # Reload does the trick!
+#        sys.setdefaultencoding('UTF8')
+        
+        with open(DICT_PATH + "/" + file_name, 'rb') as f:
 
             while True:
 
-                line = f.readline()
-                line = os.fsdecode(line).encode("utf-8").rstrip().decode('utf-8')
+                
+                line = f.readline().rstrip().decode("utf-8")
+
                 if not line:
                     break
 
-                parts = line.split("\r")
+                parts = line.split(';')
                 # print repr(parts)
-
+ 
                 ipas = _normalize (parts[1],  IPA_normalization)
 
                 k = parts[0]

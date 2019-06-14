@@ -179,7 +179,7 @@ for audio_corpus in audio_corpora:
 
     transcripts = Transcripts(corpus_name=audio_corpus)
 
-    ts_all, ts_train, ts_test = transcripts.split(limit=options.debug)
+    ts_all = transcripts.split(limit=options.debug)
 
     export_audio('test', ts_all)
     
