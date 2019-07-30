@@ -88,7 +88,6 @@ if not os.path.isdir(language_model_dir):
 
 work_dir = 'tests'
 data_dir = work_dir + "/" + LANG + "-data" 
-testset_dir= work_dir + "/forschergeist"
 
 #
 # load dict
@@ -108,7 +107,7 @@ def export_audio (train_val, tsdict):
 
     global data_dir, utt_num, options, cnt
 
-    destdirfn = '%s/%s' % (data_dir, train_val)
+    destdirfn = data_dir
 
     lcnt = 0
 
@@ -129,11 +128,12 @@ def export_audio (train_val, tsdict):
 
         if not covered_by_lex:
             continue
-
+        
+        print("about to export")
         with codecs.open('%s/%09d.id'  % (destdirfn, utt_num[train_val]), 'w', 'utf8') as idf,   \
              codecs.open('%s/%09d.tkn' % (destdirfn, utt_num[train_val]), 'w', 'utf8') as tknf,  \
              codecs.open('%s/%09d.wrd' % (destdirfn, utt_num[train_val]), 'w', 'utf8') as wrdf   :
-
+            print("utterance read. " + str(wrdf) + "\n")
             tkn = u''
             wrd = u''
             for token in tokens:
@@ -156,8 +156,8 @@ def export_audio (train_val, tsdict):
             tknf.write('%s\n' % tkn)
             wrdf.write('%s\n' % wrd)
             idf.write('utt_id\t%s\ncorpus\t%s\nlang\t%s\n' % (utt_id, ts['corpus_name'], options.lang))
-
-            os.symlink('%s/%s/%s.wav' % (testset_dir, ts['corpus_name'], utt_id), '%s/%09d.wav' % (destdirfn, utt_num[train_val]))
+            
+            os.symlink('%s/%s/%s.wav' % (work_dir, ts['corpus_name'], utt_id), '%s/%09d.wav' % (destdirfn, utt_num[train_val]))
             # cmd = 'ln -s %s/%s/%s.wav %s/%09d.wav' % (wav16_dir, ts['corpus_name'], utt_id, destdirfn, utt_num[train_val])
             # logging.debug(cmd)
             # os.system(cmd)
@@ -171,7 +171,7 @@ def export_audio (train_val, tsdict):
         if cnt % 1000 == 0:
             logging.info ('%6d audio files linked from %s [%s] (%6d/%6d)...' % (cnt, ts['corpus_name'], train_val, lcnt, len(tsdict)))
 
-utt_num = { 'test': 0}
+utt_num = { 'all': 0}
 
 for audio_corpus in audio_corpora:
 
@@ -179,9 +179,9 @@ for audio_corpus in audio_corpora:
 
     transcripts = Transcripts(corpus_name=audio_corpus)
 
-    ts_all = transcripts.split(limit=options.debug)
+    ts_all = transcripts.split()
 
-    export_audio('test', ts_all)
+    export_audio('all', ts_all)
     
     logging.info("exported transcripts from %s: %d samples." % (audio_corpus, len(ts_all)))
 

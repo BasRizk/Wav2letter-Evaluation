@@ -48,7 +48,7 @@ class Transcripts(object):
                 misc.mkdirs(self.tsdir)
 
         for tsfn in os.listdir(self.tsdir):
-
+            print(tsfn)
             if not tsfn.startswith('transcripts') or not tsfn.endswith('.csv'):
                 continue
 
@@ -145,9 +145,8 @@ class Transcripts(object):
         ts_all   = {}
 
         cnt = 0
-
+        
         for cfn in self.ts:
-
             v = self.ts[cfn]
 
             cnt += 1
