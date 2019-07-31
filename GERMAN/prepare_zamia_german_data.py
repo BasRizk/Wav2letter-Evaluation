@@ -1,5 +1,6 @@
 """
-Copyright (c) Facebook, Inc. and its affiliates.
+Customized script to prepare other datasets
+Orignally Copyright (c) Facebook, Inc. and its affiliates.
 All rights reserved.
 
 This source code is licensed under the BSD-style license found in the
@@ -7,14 +8,8 @@ LICENSE file in the root directory of this source tree.
 
 ---------
 
-Script to package original Mini Librispeech datasets into a form readable in
+Script to package original Mini datasets into a form readable in
 wav2letter++ pipelines
-
-[If you haven't downloaded the datasets] Please download all the original datasets
-in a folder on your own
-> wget -qO- http://www.openslr.org/resources/12/train-clean-100.tar.gz | tar xvz
-> wget -qO- http://www.openslr.org/resources/12/dev-clean.tar.gz | tar xvz
-> wget -qO- http://www.openslr.org/resources/12/test-clean.tar.gz | tar xvz
 
 Command : prepare_data.py --src [...]/LibriSpeech/ --dst [...]
 
@@ -26,7 +21,39 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import argparse
 import os
 import sys
+import re, string
+import unicodedata
+#from text import Alphabet, validate_label
 
+isText = False
+
+#alphabet_path = "models/de/tokens.txt"
+#assert(os.path.exists(alphabet_path))
+#alphabet = Alphabet(alphabet_path)
+
+punct_regex = re.compile('[%s]' % re.escape(string.punctuation))
+digits_regex = re.compile('[%s]' % re.escape(string.digits))
+
+def label_filter(label):
+    
+    try:
+        label = unicodedata.normalize("NFKD", label.strip()) \
+#            .replace('-', '') \
+#            .replace('\' ', '\'') \
+#            .replace('  ', ' ') \
+#            .replace('#', 'nC')
+        label = punct_regex.sub('', label)
+        label = digits_regex.sub('', label)
+
+#        if alphabet and label:
+#            try:
+#                [alphabet.label_from_string(c) for c in label]
+#            except KeyError:
+#                label = None
+    except:
+        print(label)
+            
+    return label
 
 def findtranscriptfiles(dir):
     files = []
@@ -43,13 +70,14 @@ def write_sample(line, idx, dst):
 
     assert filename and input and lbl
 
+    lbl = label_filter(lbl)
     basepath = os.path.join(dst, "%09d" % idx)
 
-    # flac
+    # wav
     os.system(
         "cp {src} {dst}".format(
-            src=os.path.join(os.path.dirname(filename), input + ".flac"),
-            dst=basepath + ".flac",
+            src=os.path.join(os.path.dirname(filename), input + ".wav"),
+            dst=basepath + ".wav",
         )
     )
 
@@ -79,7 +107,7 @@ if __name__ == "__main__":
         str(args.src)
     ), "Librispeech src directory not found - '{d}'".format(d=args.src)
 
-    subpaths = ["test-other"]
+    subpaths = [""]
 
     os.makedirs(args.dst, exist_ok=True)
 
@@ -104,20 +132,21 @@ if __name__ == "__main__":
         for tf in transcriptfiles:
             with open(tf, "r") as f:
                 for line in f:
-                    transcripts.append(tf + " " + line.strip())
+                    directory = "/".join(tf.split("/")[:-2]) + "/wav/"
+                    transcripts.append(directory + " " + line.strip())
 
         n_samples = len(transcripts)
         for n in range(n_samples):
             write_sample(transcripts[n], n, dst)
 
-    # create tokens dictionary
-    tkn_file = os.path.join(args.dst, "data", "tokens.txt")
-    sys.stdout.write("creating tokens file {t}...\n".format(t=tkn_file))
-    sys.stdout.flush()
-    with open(tkn_file, "w") as f:
-        f.write("|\n")
-        f.write("'\n")
-        for alphabet in range(ord("a"), ord("z") + 1):
-            f.write(chr(alphabet) + "\n")
+#    # create tokens dictionary
+#    tkn_file = os.path.join(args.dst, "data", "tokens.txt")
+#    sys.stdout.write("creating tokens file {t}...\n".format(t=tkn_file))
+#    sys.stdout.flush()
+#    with open(tkn_file, "w") as f:
+#        f.write("|\n")
+#        f.write("'\n")
+#        for alphabet in range(ord("a"), ord("z") + 1):
+#            f.write(chr(alphabet) + "\n")
 
     sys.stdout.write("Done !\n")
