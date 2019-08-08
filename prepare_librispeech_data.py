@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     for subpath in subpaths:
         src = os.path.join(args.src, subpath)
-        dst = os.path.join(args.dst, "data", subpath)
+        dst = os.path.join(args.dst, subpath)
         os.makedirs(dst, exist_ok=True)
 
         transcripts = []
@@ -111,7 +111,7 @@ if __name__ == "__main__":
             write_sample(transcripts[n], n, dst)
 
     # create tokens dictionary
-    tkn_file = os.path.join(args.dst, "data", "tokens.txt")
+    tkn_file = os.path.join(args.dst, "tokens.txt")
     sys.stdout.write("creating tokens file {t}...\n".format(t=tkn_file))
     sys.stdout.flush()
     with open(tkn_file, "w") as f:
