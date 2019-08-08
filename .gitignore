@@ -1,6 +1,5 @@
 # Other folders to ignore
 models/
-logs/
 tests/
 
 # Other files to ignore
