@@ -1,14 +1,14 @@
 # TODO just in case, as the script will most probably be run in sudo su bash (root)
-USER=ironbas3 
+#USER=ironbas3 
 ## update alternatives
 update-alternatives --install /usr/lib/x86_64-linux-gnu/libblas.so     \
-                    libblas.so-x86_64-linux-gnu      /home/$USER/intel/mkl/lib/intel64/libmkl_rt.so 50
+                    libblas.so-x86_64-linux-gnu      ~/intel/mkl/lib/intel64/libmkl_rt.so 50
 update-alternatives --install /usr/lib/x86_64-linux-gnu/libblas.so.3   \
-                    libblas.so.3-x86_64-linux-gnu    /home/$USER/intel/mkl/lib/intel64/libmkl_rt.so 50
+                    libblas.so.3-x86_64-linux-gnu    ~/intel/mkl/lib/intel64/libmkl_rt.so 50
 update-alternatives --install /usr/lib/x86_64-linux-gnu/liblapack.so   \
-                    liblapack.so-x86_64-linux-gnu    /home/$USER/intel/mkl/lib/intel64/libmkl_rt.so 50
+                    liblapack.so-x86_64-linux-gnu    ~/intel/mkl/lib/intel64/libmkl_rt.so 50
 update-alternatives --install /usr/lib/x86_64-linux-gnu/liblapack.so.3 \
-                    liblapack.so.3-x86_64-linux-gnu  /home/$USER/intel/mkl/lib/intel64/libmkl_rt.so 50
+                    liblapack.so.3-x86_64-linux-gnu  ~/intel/mkl/lib/intel64/libmkl_rt.so 50
 
 echo "/home/$USER/intel/lib/intel64"     >  /etc/ld.so.conf.d/mkl.conf
 echo "/home/$USER/intel/mkl/lib/intel64" >> /etc/ld.so.conf.d/mkl.conf
