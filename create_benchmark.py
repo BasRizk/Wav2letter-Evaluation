@@ -16,7 +16,7 @@ if USING_GPU:
     print("Using GPU support.")
 VERBOSE = True
 
-SYM_TEST_PATH = "tests/en-data/data/test-other"
+SYM_TEST_PATH = "tests/en-data/test-other"
 TEST_PATH = "tests/LibriSpeech/test-other"
 DECODE_LOG_PATH = "decode_log.txt"
 TEST_LOG_PATH = "test_log.txt"
@@ -76,9 +76,9 @@ log_filepath = platform_meta_path  +"/logs_" + localtime + ".txt"
 summ_filepath = platform_meta_path  +"/summ_" + localtime + ".txt"
 benchmark_filepath = platform_meta_path  +"/w2l_benchmark_ " + localtime + ".csv"
 
-test_log = pd.read_csv("tests/test_log.txt", sep=",", header=None)
-decode_log = pd.read_csv("tests/decode_log.txt", sep=",", header=None)
-result_log = open("/home/ironbas7/W2l-Eval/logs/en-data#data#test-other.hyp", "r")
+test_log = pd.read_csv("test_log.txt", sep=",", skiprows=[0], header=None)
+decode_log = pd.read_csv("decode_log.txt", sep=",", skiprows=[0], header=None)
+result_log = open("logs/en-data#test-other.hyp", "r")
                   
 test_directories = prepare_pathes(TEST_PATH, recursive = IS_RECURSIVE_DIRECTORIES)
 text_pathes = list()

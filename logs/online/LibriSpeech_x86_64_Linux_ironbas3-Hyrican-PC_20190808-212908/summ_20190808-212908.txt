@@ -1,0 +1,3 @@
+Avg. Proc. time/sec,0.2922197351035824
+Avg. Proc. time inc. SAVE (sec/second of audio) = 0.29235215285233185
+Avg. WER,0.20606651922422609
