@@ -20,12 +20,12 @@ import re
 import sys
 
 
-lm = "6_gram"
+lm = "6g_lm"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="LM data creation.")
 
-    lm_dir = "models/en/lm"
+    lm_dir = "models/en"
 
     arpa_file = os.path.join(lm_dir, lm + ".arpa")
 
