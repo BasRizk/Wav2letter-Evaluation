@@ -1,6 +1,6 @@
-export LD_LIBRARY_PATH=~/intel/compilers_and_libraries_2019.4.243/linux/mkl/lib/intel64_lin:/home/$USER/intel/compilers_and_libraries_2019.4.243/linux/compiler/lib/intel64_lin:/home/$USER/intel/compilers_and_libraries_2019.4.243/linux/mkl/lib/intel64_lin 
+export LD_LIBRARY_PATH=~/intel/compilers_and_libraries_2019.4.243/linux/mkl/lib/intel64_lin:~/intel/compilers_and_libraries_2019.4.243/linux/compiler/lib/intel64_lin:~/intel/compilers_and_libraries_2019.4.243/linux/mkl/lib/intel64_lin:$LD_LIBRARY_PATH
 
-export CMAKE_LIBARY_PATH=~/intel/compilers_and_libraries_2019.4.243/linux/mkl/lib/intel64_lin:~/intel/compilers_and_libraries_2019.4.243/linux/compiler/lib/intel64_lin:~/intel/compilers_and_libraries_2019.4.243/linux/mkl/lib/intel64_lin
+export CMAKE_LIBRARY_PATH=~/intel/compilers_and_libraries_2019.4.243/linux/mkl/lib/intel64_lin:~/intel/compilers_and_libraries_2019.4.243/linux/compiler/lib/intel64_lin:~/intel/compilers_and_libraries_2019.4.243/linux/mkl/lib/intel64_lin:$CMAKE_LIBRARY_PATH
 
 export MKLROOT=~/intel/mkl 
 
