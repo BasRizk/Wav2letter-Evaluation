@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from os import path, makedirs
+from os import path, makedirs, listdir
 from utils import cpu_info, gpu_info, prepare_pathes
 from jiwer import wer  
 from os.path import join, realpath
@@ -7,6 +7,8 @@ import platform
 import soundfile as sf
 import pandas as pd  
 import time
+import shutil
+
 
 
 IS_RECURSIVE_DIRECTORIES = True
@@ -16,11 +18,15 @@ if USING_GPU:
     print("Using GPU support.")
 VERBOSE = True
 
-SYM_TEST_PATH = "tests/en-data/test-other"
-TEST_PATH = "tests/LibriSpeech/test-other"
+#TEST_PATH = "tests/LibriSpeech/test-other"
+TEST_PATH = "tests/iisys"
+
+TEST_PATH_POSTFIX = TEST_PATH.split("/")[-1]
+SYM_TEST_PATH = path.join("tests/en-data", TEST_PATH_POSTFIX)
+hypothesis_file = "logs/en-data#" + TEST_PATH_POSTFIX + ".hyp"
+
 DECODE_LOG_PATH = "decode_log.txt"
 TEST_LOG_PATH = "test_log.txt"
-#TEST_PATH = "tests/iisys"
 assert(path.exists(TEST_PATH))
 
 try:
@@ -31,11 +37,12 @@ except:
 if  TEST_CORPUS == "iisys":
     IS_TSV = True
     IS_RECURSIVE_DIRECTORIES = False
+    ORG_AUDIO_INPUT = "wav"
 else:
     IS_TSV = False
     IS_RECURSIVE_DIRECTORIES = True
+    ORG_AUDIO_INPUT = "flac"
 
-ORG_AUDIO_INPUT = "flac"
 
 try:
     if TEST_PATH.split("/")[2] == "Sprecher":
@@ -78,7 +85,7 @@ benchmark_filepath = platform_meta_path  +"/w2l_benchmark_ " + localtime + ".csv
 
 test_log = pd.read_csv("test_log.txt", sep=",", skiprows=[0], header=None)
 decode_log = pd.read_csv("decode_log.txt", sep=",", skiprows=[0], header=None)
-result_log = open("logs/en-data#test-other.hyp", "r")
+result_log = open(hypothesis_file, "r")
                   
 test_directories = prepare_pathes(TEST_PATH, recursive = IS_RECURSIVE_DIRECTORIES)
 text_pathes = list()
@@ -221,3 +228,29 @@ processed_data+= "AvgWER," + str(avg_wer) + "\n"
 with open(benchmark_filepath, 'w') as f:
     for line in processed_data:
         f.write(line)
+
+# =============================================================================
+# ---------------CLEAN UP
+# =============================================================================
+print("About to move all files relating to specific log directory...\n")
+def move_to_specific_log(old_file, new_file=None):
+    if new_file == None:
+        new_file = path.join(platform_meta_path, old_file)
+    shutil.move(old_file, new_file)
+
+for file in listdir("logs"):
+    if "en-data" in file:
+        old_file = path.join("logs", file)
+        new_file = path.join(platform_meta_path, file)
+        move_to_specific_log(old_file, new_file)
+print("=> Main logs moved to specific dir.\n")
+
+move_to_specific_log("test_log.txt")
+move_to_specific_log("decode_log.txt")
+print("=> Eval logs moved to specific dir.\n")
+
+
+
+
+
+
