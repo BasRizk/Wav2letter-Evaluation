@@ -15,11 +15,16 @@ IS_RECURSIVE_DIRECTORIES = True
 IS_TSV = False
 USING_GPU = True
 if USING_GPU:
-    print("Using GPU support.")
+    print("Using GPU support.\n")
 VERBOSE = True
 
-#TEST_PATH = "tests/LibriSpeech/test-other"
-TEST_PATH = "tests/iisys"
+import sys
+if sys.argv[1] == "en-data/iisys":
+    TEST_PATH = "tests/iisys"
+else:
+    TEST_PATH = "tests/LibriSpeech/test-other"
+
+print("TEST_PATH:" + TEST_PATH + "\n")
 
 TEST_PATH_POSTFIX = TEST_PATH.split("/")[-1]
 SYM_TEST_PATH = path.join("tests/en-data", TEST_PATH_POSTFIX)

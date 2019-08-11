@@ -10,6 +10,7 @@ if [ ! -d $W2L_TEST_DIR/LibriSpeech ]; then
 fi
 
 python prepare_librispeech_data.py --src $W2L_TEST_DIR/LibriSpeech/ --dst $W2L_EN_TEST_DIR
+python prepare_iisys_data.py --src $W2L_TEST_DIR/iisys/ --dst $W2L_EN_TEST_DIR
 python prepare_lexicon.py
 echo "Finished preparing LibriSpeech Clean-Test dataset"
 
