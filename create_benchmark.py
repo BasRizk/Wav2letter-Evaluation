@@ -8,17 +8,19 @@ import soundfile as sf
 import pandas as pd  
 import time
 import shutil
-
+import sys
 
 
 IS_RECURSIVE_DIRECTORIES = True
 IS_TSV = False
-USING_GPU = True
+if sys.argv[2] == "ON":
+    USING_GPU = True
+else:
+    USING_GPU = False
 if USING_GPU:
     print("Using GPU support.\n")
 VERBOSE = True
 
-import sys
 if sys.argv[1] == "en-data/iisys":
     TEST_PATH = "tests/iisys"
 else:
