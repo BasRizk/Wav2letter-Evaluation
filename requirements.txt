@@ -1,2 +1,3 @@
 soundfile
 jiwer
+pandas
